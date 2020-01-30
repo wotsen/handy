@@ -6,6 +6,8 @@ OPT ?= -g2
 $(shell CC="$(CC)" CXX="$(CXX)" TARGET_OS="$(TARGET_OS)" ./build_config 1>&2)
 include config.mk
 
+MAKE_INSTALL_PREFIX = ./
+
 CFLAGS += -I. $(PLATFORM_CCFLAGS) $(OPT)
 CXXFLAGS += -I. $(PLATFORM_CXXFLAGS) $(OPT)
 
@@ -34,12 +36,12 @@ $(EXAMPLES): $(LIBRARY)
 $(KW): $(LIBRARY)
 
 install: libhandy.a
-	mkdir -p $(PREFIX)/usr/local/include/handy
-	cp -f handy/*.h $(PREFIX)/usr/local/include/handy
-	cp -f libhandy.a $(PREFIX)/usr/local/lib
+	mkdir -p $(MAKE_INSTALL_PREFIX)/include/handy
+	cp -f handy/*.h $(MAKE_INSTALL_PREFIX)/include/handy
+	cp -f libhandy.a $(MAKE_INSTALL_PREFIX)/lib
 
 uninstall:
-	rm -rf $(PREFIX)/usr/local/include/handy $(PREFIX)/usr/local/lib/libhandy.a
+	rm -rf $(MAKE_INSTALL_PREFIX)/include/handy $(MAKE_INSTALL_PREFIX)/lib/libhandy.a
 clean:
 			-rm -f $(TARGETS)
 			-rm -f */*.o
